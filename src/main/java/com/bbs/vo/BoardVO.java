@@ -1,12 +1,12 @@
 package com.bbs.vo;
-import java.util.Date;
 
+import java.util.Date;
 import lombok.Data;
 
 @Data
 public class BoardVO {
 /*
-	BNO INT NOT NULL AUTO_INCREMENT,	-- 게시판 고유 번호 (자동증가)
+	BNO INT NOT NULL ,	-- 게시판 고유 번호 (자동증가)
 	TITLE VARCHAR(100),	-- 게시글 제목
 	CONTENT VARCHAR(1000),	-- 게시글 내용
 	WRITER VARCHAR(100),	-- 글쓴이
@@ -19,5 +19,5 @@ public class BoardVO {
 	String content;
 	String writer;
 	Date regDate;
-	
+
 }

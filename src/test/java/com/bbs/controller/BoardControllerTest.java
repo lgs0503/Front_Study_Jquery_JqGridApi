@@ -1,6 +1,8 @@
 package com.bbs.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +39,13 @@ public class BoardControllerTest {
 	}
 	
 	@Test
+	public void testView() throws Exception {
+		mockMvc.perform(get("/board/list")).andExpect(status().isOk())
+		                                   .andExpect(view().name("borad"));
+	}
+
+	@Test
 	public void testList() throws Exception {
-		mockMvc.perform(get("/board/list"));
+		mockMvc.perform(get("/board/getBoardList")).andExpect(status().isOk());
 	}
 }

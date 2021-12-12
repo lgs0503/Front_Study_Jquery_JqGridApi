@@ -26,17 +26,14 @@ public class BoardController {
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	public String BoardView() 
 	{	
-		// 호출 시 찍히게 될 로그
 		LOG.info("[GET] BoardView");
 		return "borad";
 	}
 	
-	@RequestMapping(value = "getBoardList", method = RequestMethod.GET)
+	@RequestMapping(value = "getBoardList", method = RequestMethod.POST)
 	public @ResponseBody List<BoardVO> getBoardList() 
 	{	
-		// 호출 시 찍히게 될 로그
-		LOG.info("[GET] getBoardList");
-		// 결과 값을 담을 ResultVO를 선언한 생성자를 통해서 만드는데 기본값은 success는 false, result는 null로 세팅
+		LOG.info("[POST] getBoardList");
 		List<BoardVO> result = new ArrayList<BoardVO>();
 
 		try {
@@ -47,6 +44,5 @@ public class BoardController {
 		}
 
 		return result;
-
 	}
 }

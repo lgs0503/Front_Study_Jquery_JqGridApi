@@ -15,7 +15,7 @@
 				TITLE,
 				CONTENT,
 				WRITER,
-				REGDATE 
+				TO_CHAR(REGDATE, 'YYYY-MM-DD') AS REGDATE
 		FROM	BOARD
 	</select>
 

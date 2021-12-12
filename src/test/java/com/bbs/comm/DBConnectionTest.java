@@ -1,4 +1,4 @@
-package com.bbs.controller;
+package com.bbs.comm;
 
 import java.sql.Connection;
 

@@ -21,8 +21,10 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- component scan -->
 	<context:component-scan base-package="com.bbs.controller" />
-	
-	
+	<context:component-scan base-package="com.bbs.service" />
+	<context:component-scan base-package="com.bbs.mapper" />
+	<context:component-scan base-package="com.bbs.vo" />
 	
 </beans:beans>

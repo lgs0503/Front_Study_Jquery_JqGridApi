@@ -1,4 +1,4 @@
-package com.bbs.controller;
+package com.bbs.comm;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;

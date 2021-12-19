@@ -10,7 +10,7 @@
 		<result property="regDate" column="regDate"/>
 	</resultMap>
 	
-	<select id="getBoardList" resultMap="boardMap" parameterType="com.bbs.vo.BoardGridSearchVO">
+	<select id="getBoardList" resultMap="boardMap" parameterType="BoardGridSearchVO">
 		SELECT 	BNO,
 				TITLE,
 				CONTENT,
@@ -24,6 +24,12 @@
 						TO_CHAR(REGDATE, 'YYYY-MM-DD') AS REGDATE
 				 FROM	BOARD) A
 		WHERE	NUM BETWEEN #{startRow} AND #{endRow}
+		<if test="searchKey != null and searchKey != '' and searchKey == 'title' and keyword !='' and keyword != null ">
+		AND		TITLE = #{keyword}
+		</if>
+		<if test="searchKey != null and searchKey != '' and searchKey == 'writer' and keyword !='' and keyword != null ">
+		AND		WRITER = #{keyword}
+		</if>
 		ORDER BY ${sidx} ${sord}
 	</select>
 

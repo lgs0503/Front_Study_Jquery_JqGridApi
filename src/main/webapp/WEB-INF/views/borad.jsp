@@ -5,27 +5,29 @@
 	<title>게시판</title>
 </head>
 <body>
-	<div class="search-form">
-		<div class="search-ipt">
-			<label>조건</label>
-			<select>
-				<option>전체</option>
-				<option>제목</option>
-				<option>작성자</option>
-			</select>
-			<input type="text" id="keyword">
+	<div class="content">
+		<div class="search-form">
+			<div class="search-ipt">
+				<label>조건</label>
+				<select id="combo-search">
+					<option value="all">전체</option>
+					<option value="title">제목</option>
+					<option value="writer">작성자</option>
+				</select>
+				<input type="text" id="keyword" placeholder="조회조건 입력">
+			</div>
+			<div class="search-btn">
+				<input id="btn-search" type="button" value="조회하기">
+			</div>
 		</div>
-		<div class="search-btn">
-			<input type="button" value="조회하기">
+		<div class="btn-from">
+			<input type="button" id="btn-add" value="추가하기">
+			<input type="button" id="btn-delete"value="삭제하기">
 		</div>
-	</div>
-	<div class="btn-from">
-		<input type="button" value="추가하기">
-		<input type="button" value="삭제하기">
-	</div>
-	<div>
-		<table id="jsonmap"></table>
-		<div id="pjmap"></div>
+		<div>
+			<table id="jsonmap"></table>
+			<div id="pjmap"></div>
+		</div>
 	</div>
 </body>
 
@@ -34,6 +36,19 @@
 /* 화면 로드 */
 $(document).ready(function(){
 	createGrid();
+	
+	$("#btn-search").click(function(){
+		 $("#jsonmap").trigger("reloadGrid");
+	});
+	
+	$("#btn-add").click(function(){
+		
+	});
+	
+
+	$("#btn-delete").click(function(){
+		
+	});
 });
 
 function createGrid(){
@@ -68,6 +83,15 @@ function createGrid(){
 			repeatitems	: false,
 		},
 		serializeGridData: function (postData) {
+			console.log($("#combo-search").val());
+			console.log($("#keyword").val());
+			
+			var searchVO = new Object();
+			searchVO.searchKey = $("#combo-search").val();
+			searchVO.keyword = $("#keyword").val();
+			
+			$.extend(postData, searchVO);
+			
 			console.log(JSON.stringify(postData));
 	    	return JSON.stringify(postData);
 	    },

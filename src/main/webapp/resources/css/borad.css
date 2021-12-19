@@ -1,0 +1,35 @@
+.content{
+	margin :20px;
+}
+.search-form{
+	display:flex;
+	justify-content: space-between;
+	padding :10px;
+	border: 1px solid silver;
+	background-color: rgb(231,231,231);
+	border-radius:10px;
+	margin-bottom: 20px;
+    height: 28px;
+    line-height: 28px;
+}
+label{
+	margin : 0 10px;
+}
+select{
+    height: 25px;
+	margin : 0 5px;
+}
+input[type="button"]{
+    height: 25px;
+}
+input[type="text"]{
+	margin : 0 5px;
+    height: 25px;
+}
+.search-form > div{
+	display:inline-block;
+}
+.btn-from{
+	margin-bottom: 20px;
+	text-align: right;
+}

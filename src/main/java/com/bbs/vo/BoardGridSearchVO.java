@@ -14,4 +14,7 @@ public class BoardGridSearchVO {
 	
 	int startRow;
 	int endRow;
+	
+	String searchKey;
+	String keyword;
 }

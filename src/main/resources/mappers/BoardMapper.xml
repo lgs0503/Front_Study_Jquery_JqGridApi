@@ -10,31 +10,46 @@
 		<result property="regDate" column="regDate"/>
 	</resultMap>
 	
-	<select id="getBoardList" resultMap="boardMap" parameterType="BoardGridSearchVO">
-		SELECT 	BNO,
-				TITLE,
-				CONTENT,
-				WRITER,
-				REGDATE
-		FROM	(SELECT	ROWNUM AS NUM,
-						BNO,
-						TITLE,
-						CONTENT,
-						WRITER,
-						TO_CHAR(REGDATE, 'YYYY-MM-DD') AS REGDATE
-				 FROM	BOARD) A
-		WHERE	NUM BETWEEN #{startRow} AND #{endRow}
+	<sql id="boardWhere">
 		<if test="searchKey != null and searchKey != '' and searchKey == 'title' and keyword !='' and keyword != null ">
 		AND		TITLE = #{keyword}
 		</if>
 		<if test="searchKey != null and searchKey != '' and searchKey == 'writer' and keyword !='' and keyword != null ">
 		AND		WRITER = #{keyword}
 		</if>
+	</sql>
+	
+	<select id="getBoardList" resultMap="boardMap" parameterType="BoardGridSearchVO">
+		SELECT 	BNO,
+				TITLE,
+				CONTENT,
+				WRITER,
+				REGDATE
+		FROM	(
+				SELECT	ROWNUM AS NUM,
+						BNO,
+						TITLE,
+						CONTENT,
+						WRITER,
+						TO_CHAR(REGDATE, 'YYYY-MM-DD') AS REGDATE
+				FROM	BOARD
+				WHERE 	1=1
+				<include refid="boardWhere"></include>
+				) A
+		WHERE	NUM BETWEEN #{startRow} AND #{endRow}
 		ORDER BY ${sidx} ${sord}
 	</select>
 
-	<select id="getBoardCount" resultType="int">
-		SELECT	COUNT(*) CNT
+	<select id="getBoardCount" resultType="int" parameterType="BoardGridSearchVO">
+		SELECT	CEIL(COUNT(*) / #{rows}) CNT
 		FROM	BOARD
+		WHERE 	1=1
+		<include refid="boardWhere"></include>
 	</select>
+	
+	<delete id="deleteBoard" parameterType="BoardVO">
+		DELETE 
+		FROM	BOARD
+		WHERE 	BNO = #{bno}
+	</delete>
 </mapper>

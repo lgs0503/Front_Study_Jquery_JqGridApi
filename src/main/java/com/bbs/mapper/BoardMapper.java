@@ -12,6 +12,9 @@ public interface BoardMapper {
 
 	public List<BoardVO> getBoardList(BoardGridSearchVO boardGridSearchVO);
 	
-	public int getBoardCount();
+	public int getBoardCount(BoardGridSearchVO boardGridSearchVO);
 	
+	public int boardList(BoardGridSearchVO boardGridSearchVO);
+
+	public int deleteBoard(BoardVO boardVO);
 }

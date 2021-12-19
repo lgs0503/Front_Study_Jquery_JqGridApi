@@ -1,6 +1,8 @@
 package com.bbs.service;
 
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import com.bbs.common.CommonUtil;
 import com.bbs.mapper.BoardMapper;
 import com.bbs.vo.BoardGridSearchVO;
 import com.bbs.vo.BoardGridVO;
+import com.bbs.vo.BoardVO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -30,7 +33,7 @@ public class BoardServiceImpl implements BoardService {
 			boardGridSearchVO = CommonUtil.setPagingData(boardGridSearchVO);
 			
 			boardGridVO.setBoardList(mapper.getBoardList(boardGridSearchVO));
-			boardGridVO.setTotalCount(mapper.getBoardCount() / boardGridSearchVO.getRows());
+			boardGridVO.setTotalCount(mapper.getBoardCount(boardGridSearchVO));
 			boardGridVO.setRecords(boardGridSearchVO.getRows());
 			boardGridVO.setPage(boardGridSearchVO.getPage());
 			
@@ -43,19 +46,37 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int getBoardListCount() {
+	public int getBoardListCount(BoardGridSearchVO boardGridSearchVO) {
 		
 		int count = 0;
 		
 		try (SqlSession session = sqlSessionFactory.openSession()) {
 			BoardMapper mapper = session.getMapper(BoardMapper.class);
 
-			count = mapper.getBoardCount();
+			count = mapper.getBoardCount(boardGridSearchVO);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return count;
+	}
+
+	@Override
+	public int deleteBoard(List<BoardVO> boardList) {
+		
+		try (SqlSession session = sqlSessionFactory.openSession()) {
+			BoardMapper mapper = session.getMapper(BoardMapper.class);
+
+			for(BoardVO vo : boardList) {
+				mapper.deleteBoard(vo);
+			}
+			return CommonUtil.REQUEST_SUCCESS;
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return CommonUtil.REQUEST_ERROR;
+		}
 	}
 
 }

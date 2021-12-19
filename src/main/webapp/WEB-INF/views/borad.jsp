@@ -45,9 +45,43 @@ $(document).ready(function(){
 		
 	});
 	
-
+	/* 삭제  */
 	$("#btn-delete").click(function(){
-		
+	    if(confirm("삭제하시겟습니까?")){
+
+		    var arrayChk = $("#jsonmap").jqGrid('getGridParam', 'selarrrow');
+
+		    var array = [];
+		    var len = arrayChk.length;
+		    
+		    if(len == 0){
+		    	alert("선택된 데이터가 없습니다.");
+		    	return;
+		    }
+			
+		    for(var i = 0; i < len; i++){
+		        var rowObject = $("#jsonmap").getRowData(arrayChk[i]);      //체크된 id의 row 데이터 정보를 Object 형태로 반환
+		        var value = rowObject.bno;     //Obejct key값이 name인 value값 반환
+		        console.log("삭제데이터:"+value);
+
+		        array.push(rowObject);
+		    }  
+		    
+		    $.ajax({
+		    	url : '<c:url value="/board/deleteBoard"/>',
+		    	datatype : "json",
+		    	type : "post",
+	            contentType: 'application/json; charset=utf-8',
+		    	data : JSON.stringify(array),
+	            success:function(data){
+	            	console.log("성공");
+	       		 	$("#jsonmap").trigger("reloadGrid");
+	            },
+	            error:function(request, status, error){
+	                console.log("AJAX_ERROR");
+	            }
+		    }); 
+		}
 	});
 });
 
@@ -75,6 +109,7 @@ function createGrid(){
 	    sortname : "bno",
 		caption : "JQGrid 게시판",
 		autowidth : true,
+        multiselect:true, 
 		jsonReader : { 
 			root		: "boardList", 
 			page		: "page", 

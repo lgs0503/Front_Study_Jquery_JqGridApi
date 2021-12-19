@@ -6,5 +6,7 @@
 
 	<typeAliases>
 		<typeAlias type="com.bbs.vo.BoardGridSearchVO" alias="BoardGridSearchVO"/>
+		<typeAlias type="com.bbs.vo.BoardVO" alias="BoardVO"/>
+		
 	</typeAliases>
 </configuration>

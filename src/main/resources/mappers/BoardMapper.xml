@@ -24,6 +24,7 @@
 						TO_CHAR(REGDATE, 'YYYY-MM-DD') AS REGDATE
 				 FROM	BOARD) A
 		WHERE	NUM BETWEEN #{startRow} AND #{endRow}
+		ORDER BY ${sidx} ${sord}
 	</select>
 
 	<select id="getBoardCount" resultType="int">

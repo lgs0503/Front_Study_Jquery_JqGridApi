@@ -5,7 +5,23 @@
 	<title>게시판</title>
 </head>
 <body>
-	<div>
+	<div class="search-form">
+		<div class="search-ipt">
+			<label>조건</label>
+			<select>
+				<option>전체</option>
+				<option>제목</option>
+				<option>작성자</option>
+			</select>
+			<input type="text" id="keyword">
+		</div>
+		<div class="search-btn">
+			<input type="button" value="조회하기">
+		</div>
+	</div>
+	<div class="btn-from">
+		<input type="button" value="추가하기">
+		<input type="button" value="삭제하기">
 	</div>
 	<div>
 		<table id="jsonmap"></table>
@@ -40,8 +56,9 @@ function createGrid(){
 	   	rowList : [3,10,20],
 	   	pager: '#pjmap',
 	    viewrecords :  true,
-	    sortorder :  "desc",
-		caption : "게시판",
+	    sortorder :  "asc",
+	    sortname : "bno",
+		caption : "JQGrid 게시판",
 		autowidth : true,
 		jsonReader : { 
 			root		: "boardList", 

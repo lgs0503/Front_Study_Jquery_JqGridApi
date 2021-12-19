@@ -10,13 +10,24 @@
 		<result property="regDate" column="regDate"/>
 	</resultMap>
 	
-	<select id="getBoardList" resultMap="boardMap">
-		SELECT	BNO,
+	<select id="getBoardList" resultMap="boardMap" parameterType="com.bbs.vo.BoardGridSearchVO">
+		SELECT 	BNO,
 				TITLE,
 				CONTENT,
 				WRITER,
-				TO_CHAR(REGDATE, 'YYYY-MM-DD') AS REGDATE
-		FROM	BOARD
+				REGDATE
+		FROM	(SELECT	ROWNUM AS NUM,
+						BNO,
+						TITLE,
+						CONTENT,
+						WRITER,
+						TO_CHAR(REGDATE, 'YYYY-MM-DD') AS REGDATE
+				 FROM	BOARD) A
+		WHERE	NUM BETWEEN #{startRow} AND #{endRow}
 	</select>
 
+	<select id="getBoardCount" resultType="int">
+		SELECT	COUNT(*) CNT
+		FROM	BOARD
+	</select>
 </mapper>

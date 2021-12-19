@@ -1,6 +1,5 @@
 package com.bbs.vo;
 
-import java.util.Date;
 import lombok.Data;
 
 @Data

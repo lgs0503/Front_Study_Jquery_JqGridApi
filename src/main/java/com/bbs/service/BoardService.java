@@ -1,10 +1,13 @@
 package com.bbs.service;
 
-import java.util.List;
-import com.bbs.vo.BoardVO;
+
+import com.bbs.vo.BoardGridSearchVO;
+import com.bbs.vo.BoardGridVO;
 
 public interface BoardService {
 	
-	public List<BoardVO> getBoardList();
+	public BoardGridVO getBoardList(BoardGridSearchVO boardGridSearchVO);
+	
+	public int getBoardListCount();
 
 }

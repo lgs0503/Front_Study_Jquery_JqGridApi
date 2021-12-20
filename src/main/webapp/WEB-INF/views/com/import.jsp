@@ -18,3 +18,6 @@
 
 <script src="/resources/jqGrid/js/i18n/grid.locale-kr.js" type="text/javascript"></script> 
 <script src="/resources/jqGrid/js/minified/jquery.jqGrid.min.js" type="text/javascript"></script>
+
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>

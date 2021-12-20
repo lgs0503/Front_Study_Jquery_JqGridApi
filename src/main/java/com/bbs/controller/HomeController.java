@@ -27,5 +27,11 @@ public class HomeController {
 	
 		return "redirect:/board/list";
 	}
-	
+
+	@RequestMapping(value = "vue", method = RequestMethod.GET)
+	public String BoardView() 
+	{	
+		logger.info("[GET] BoardView");
+		return "app";
+	}	
 }

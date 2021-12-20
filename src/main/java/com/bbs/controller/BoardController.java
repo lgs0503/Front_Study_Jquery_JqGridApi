@@ -50,6 +50,21 @@ public class BoardController {
 		return boardGridVO;
 	}
 
+	@RequestMapping(value = "saveBoard", method = RequestMethod.POST)
+	public @ResponseBody int saveBoard(@RequestBody BoardVO boardVO) 
+	{	
+		LOG.info("[POST] saveBoard");
+		
+		try {
+			service.saveBoard(boardVO);
+			return CommonUtil.REQUEST_SUCCESS;
+		} catch (Exception e) {
+			// TODO: handle exception
+			LOG.error("[Board] saveBoard : " + e.getMessage(), e);
+			return CommonUtil.REQUEST_ERROR;
+		}
+	}
+	
 	@RequestMapping(value = "deleteBoard", method = RequestMethod.POST)
 	public @ResponseBody int deleteBoard(@RequestBody List<BoardVO> boardList) 
 	{	

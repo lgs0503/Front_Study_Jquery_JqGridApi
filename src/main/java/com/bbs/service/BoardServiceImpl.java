@@ -60,6 +60,29 @@ public class BoardServiceImpl implements BoardService {
 		}
 		return count;
 	}
+	
+	@Override
+	public int saveBoard(BoardVO boardVO) {
+
+		try (SqlSession session = sqlSessionFactory.openSession()) {
+			BoardMapper mapper = session.getMapper(BoardMapper.class);
+
+			int status = boardVO.getBno();
+			
+			if(status == 0) {
+				mapper.insertBoard(boardVO);
+			} else {
+				mapper.updateBoard(boardVO);
+			}
+			
+			return CommonUtil.REQUEST_SUCCESS;
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return CommonUtil.REQUEST_ERROR;
+		}
+	}
 
 	@Override
 	public int deleteBoard(List<BoardVO> boardList) {
@@ -78,5 +101,6 @@ public class BoardServiceImpl implements BoardService {
 			return CommonUtil.REQUEST_ERROR;
 		}
 	}
+
 
 }

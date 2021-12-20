@@ -8,6 +8,8 @@
   integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
   crossorigin="anonymous"></script>
   
+<script src="/resources/jquery-ui/jquery-ui.min.js"></script>
+  
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <!-- <link rel="stylesheet" type="text/css" href="/js/common/jquery/jquery-ui.min.css" />  -->
 <!-- <script type="text/javascript" src="/js/common/jquery/jquery-3.2.1.min.js"></script>  -->

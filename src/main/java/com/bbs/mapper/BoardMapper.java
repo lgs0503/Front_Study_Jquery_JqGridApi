@@ -16,5 +16,9 @@ public interface BoardMapper {
 	
 	public int boardList(BoardGridSearchVO boardGridSearchVO);
 
+	public int insertBoard(BoardVO vo);
+	
+	public int updateBoard(BoardVO vo);
+	
 	public int deleteBoard(BoardVO boardVO);
 }

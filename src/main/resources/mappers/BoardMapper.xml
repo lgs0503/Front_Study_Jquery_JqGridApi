@@ -12,10 +12,10 @@
 	
 	<sql id="boardWhere">
 		<if test="searchKey != null and searchKey != '' and searchKey == 'title' and keyword !='' and keyword != null ">
-		AND		TITLE = #{keyword}
+		AND		TITLE LIKE '%' || #{keyword} || '%'
 		</if>
 		<if test="searchKey != null and searchKey != '' and searchKey == 'writer' and keyword !='' and keyword != null ">
-		AND		WRITER = #{keyword}
+		AND		WRITER LIKE '%' || #{keyword} || '%'
 		</if>
 	</sql>
 	
@@ -26,7 +26,7 @@
 				WRITER,
 				REGDATE
 		FROM	(
-				SELECT	ROWNUM AS NUM,
+				SELECT	ROW_NUMBER() OVER(ORDER BY BNO) AS NUM,
 						BNO,
 						TITLE,
 						CONTENT,
@@ -46,6 +46,37 @@
 		WHERE 	1=1
 		<include refid="boardWhere"></include>
 	</select>
+	
+	<insert id="insertBoard" parameterType="BoardVO">
+		INSERT
+		INTO	BOARD
+				(
+				BNO,
+				TITLE,
+				CONTENT,
+				WRITER,
+				REGDATE
+				)
+		VALUES	(
+				(
+				SELECT	MAX(NVL(BNO,0))+1 
+				FROM	BOARD
+				),
+				#{title},
+				#{content},
+				#{writer},
+				#{regDate}
+				)
+	</insert>
+	
+	<update id="updateBoard" parameterType="BoardVO">
+		UPDATE	BOARD
+		SET		TITLE		= #{title},
+				CONTENT		= #{content},
+				WRITER		= #{writer},
+				REGDATE		= #{regDate}
+		WHERE	BNO			= #{bno}
+	</update>
 	
 	<delete id="deleteBoard" parameterType="BoardVO">
 		DELETE 

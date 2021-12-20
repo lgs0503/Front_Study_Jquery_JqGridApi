@@ -13,6 +13,8 @@ public interface BoardService {
 	
 	public int getBoardListCount(BoardGridSearchVO boardGridSearchVO);
 
+	public int saveBoard(BoardVO boardVO);
+	
 	public int deleteBoard(List<BoardVO> boardList);
 	
 }

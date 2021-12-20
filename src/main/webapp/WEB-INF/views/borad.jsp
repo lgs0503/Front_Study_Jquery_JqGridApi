@@ -8,41 +8,83 @@
 	<div class="content">
 		<div class="search-form">
 			<div class="search-ipt">
-				<label>조건</label>
-				<select id="combo-search">
+				<label class="search-label">조건</label>
+				<select id="combo-search" class="search-select">
 					<option value="all">전체</option>
 					<option value="title">제목</option>
 					<option value="writer">작성자</option>
 				</select>
-				<input type="text" id="keyword" placeholder="조회조건 입력">
+				<input class="ipt-text" type="text" id="keyword" placeholder="조회조건 입력">
 			</div>
 			<div class="search-btn">
-				<input id="btn-search" type="button" value="조회하기">
+				<input class="ipt-btn" id="btn-search" type="button" value="조회하기">
 			</div>
 		</div>
 		<div class="btn-from">
-			<input type="button" id="btn-add" value="추가하기">
-			<input type="button" id="btn-delete"value="삭제하기">
+			<input class="ipt-btn" type="button" id="btn-add" value="추가하기">
+			<input class="ipt-btn" type="button" id="btn-delete"value="삭제하기">
 		</div>
 		<div>
 			<table id="jsonmap"></table>
 			<div id="pjmap"></div>
 		</div>
 	</div>
+	
+	<div class="grid-detail" id="dialog">
+	
+		<div style="display: none">
+			<label>No</label>
+			<input type="text" id="bno"/>
+		</div>
+		<div>
+			<label>제목</label>
+			<input type="text" id="title"/>
+		</div>
+		<div>
+			<label>내용</label>
+			<textarea rows="" cols=""  id="content"></textarea>
+		</div>
+		<div>
+			<label>작성자</label>
+			<input type="text" id="writer"/>
+		</div>
+		<div>
+			<label>등록일</label>
+			<input type="text" id="regDate"/>
+		</div>
+		<div>
+			<input type="button" value="저장" id="popup-btn-save" />
+			<input type="button" value="취소" id="popup-btn-close"/>
+		</div>
+	</div>
 </body>
 
 <script>
+var arrayModel = ['bno','title','content','writer','regDate'];
 
 /* 화면 로드 */
 $(document).ready(function(){
+	
 	createGrid();
+	
+	$("#regDate").datepicker({ dateFormat: 'yy-mm-dd' });
 	
 	$("#btn-search").click(function(){
 		 $("#jsonmap").trigger("reloadGrid");
 	});
 	
 	$("#btn-add").click(function(){
+		openDialog('신규');
 		
+		for(var i in arrayModel){
+			if(i == 0){
+				$("#"+arrayModel[0]).val("0");
+				continue;
+			}
+			
+			console.log(arrayModel[i]);
+			$("#"+arrayModel[i]).val('');
+		}
 	});
 	
 	/* 삭제  */
@@ -83,6 +125,34 @@ $(document).ready(function(){
 		    }); 
 		}
 	});
+	
+
+	  $("#popup-btn-save").click(function(){
+		  if(confirm("저장하시겠습니까")){
+	 		  var object = {bno 	: $("#bno").val(),
+	 				        title 	: $("#title").val(),
+	 				        content : $("#content").val(),
+	 				        writer	: $("#writer").val(),
+	 				        regDate : $("#regDate").val()};
+		  
+	 		  $.ajax({
+		    	url : '<c:url value="/board/saveBoard"/>',
+		    	datatype : "json",
+		    	type : "post",
+	            contentType: 'application/json; charset=utf-8',
+		    	data : JSON.stringify(object),
+	            success:function(data){
+	            	$('#dialog').dialog('close');
+	            	alert("저장 되었습니다.");
+	            	console.log("성공");
+	       		 	$("#jsonmap").trigger("reloadGrid");
+	            },
+	            error:function(request, status, error){
+	                console.log("AJAX_ERROR");
+	            }
+	 		  });
+		  }
+	  });
 });
 
 function createGrid(){
@@ -101,8 +171,8 @@ function createGrid(){
 	   		{name:'writer'	,index:'writer'	, width:80	, align:"center" , hidden:false},
 	   		{name:'regDate'	,index:'regDate', width:80	, align:"center" , hidden:false}	
 	   	],
-	   	rowNum : 3,
-	   	rowList : [3,10,20],
+	   	rowNum : 10,
+	   	rowList : [10,20,30],
 	   	pager: '#pjmap',
 	    viewrecords :  true,
 	    sortorder :  "asc",
@@ -138,16 +208,45 @@ function createGrid(){
 		},
 		onCellSelect:function(rowid, index, contents, event){
 			var cm = $(this).jqGrid('getGridParam', 'colModel');
-			console.log(cm);
 			
 			if (cm[index].name=='title'){
-				alert($(this).jqGrid('getCell', rowid, 'title')); 
+				
+				openDialog('상세정보');
+				
+				for(var i in arrayModel){
+					console.log(arrayModel[i]);
+					$("#"+arrayModel[i]).val($(this).jqGrid('getCell', rowid, arrayModel[i]));
+				}
        	 	}
+		},
+		beforeSelectRow: function (rowid, e) {
+        	i = $.jgrid.getCellIndex($(e.target).closest('td')[0]),
+        	cm = $(this).jqGrid('getGridParam', 'colModel');
+    		return (cm[i].name === 'cb');
 		}
 	});
 	
-	$("#jsonmap").jqGrid('navGrid', '#pjmap', {edit : true,
-							                   add  : true,
-							                   del  : true});
+	$("#jsonmap").jqGrid('navGrid', '#pjmap', {edit : false,
+							                   add  : false,
+							                   del  : false});
+}
+
+function openDialog(title){
+	
+	$('#dialog').dialog({
+	      title: title,
+	      modal: true,
+	      width: '500',
+	      height: '600',
+	      closeOnEscape: false, 
+	      open: function(event, ui) { 
+	    	  
+	    	  $("#popup-btn-close").click(function(){
+	    		  $('#dialog').dialog('close');
+	    	  });
+	    	  
+	    	  $(".ui-dialog-titlebar-close").hide(); 
+	      }
+	});
 }
 </script>

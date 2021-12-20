@@ -12,17 +12,17 @@
     height: 28px;
     line-height: 28px;
 }
-label{
+.search-label{
 	margin : 0 10px;
 }
-select{
+.search-select{
     height: 25px;
 	margin : 0 5px;
 }
-input[type="button"]{
+.ipt-btn{
     height: 25px;
 }
-input[type="text"]{
+.ipt-text{
 	margin : 0 5px;
     height: 25px;
 }
@@ -32,4 +32,7 @@ input[type="text"]{
 .btn-from{
 	margin-bottom: 20px;
 	text-align: right;
+}
+#dialog{
+	display:none;
 }

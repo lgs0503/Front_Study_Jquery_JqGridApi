@@ -17,7 +17,10 @@
   <router-view></router-view>
 </div>
 
+<c:import url="/WEB-INF/views/borad.jsp"></c:import>
+
 <script type="text/javascript">
+
 
 	//0. 모듈 시스템 (예: vue-cli)을 이용하고 있다면, Vue와 Vue 라우터를 import 하세요
 	//그리고 `Vue.use(VueRouter)`를 호출하세요
@@ -34,7 +37,7 @@
 	//"component"는 `Vue.extend()`를 통해 만들어진
 	//실제 컴포넌트 생성자이거나 컴포넌트 옵션 객체입니다.
 	const routes = [
-	{ path: '/foo', component: Foo },
+	{ path: '/foo', component: Foo, },
 	{ path: '/bar', component: Bar }
 	]
 	

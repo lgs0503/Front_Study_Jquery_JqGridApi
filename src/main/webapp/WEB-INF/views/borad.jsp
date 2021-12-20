@@ -86,6 +86,33 @@ $(document).ready(function(){
 			$("#"+arrayModel[i]).val('');
 		}
 	});
+
+	$("#popup-btn-save").click(function(){
+		  if(confirm("저장하시겠습니까")){
+  		  var object = {bno 	: $("#bno").val(),
+  				        title 	: $("#title").val(),
+  				        content : $("#content").val(),
+  				        writer	: $("#writer").val(),
+  				        regDate : $("#regDate").val()};
+		  
+  		  $.ajax({
+		    	url : '<c:url value="/board/saveBoard"/>',
+		    	datatype : "json",
+		    	type : "post",
+	            contentType: 'application/json; charset=utf-8',
+		    	data : JSON.stringify(object),
+	            success:function(data){
+	            	$('#dialog').dialog('close');
+	            	alert("저장 되었습니다.");
+	            	console.log("성공");
+	       		 	$("#jsonmap").trigger("reloadGrid");
+	            },
+	            error:function(request, status, error){
+	                console.log("AJAX_ERROR");
+	            }
+  		  });
+		  }
+	});
 	
 	/* 삭제  */
 	$("#btn-delete").click(function(){
@@ -143,8 +170,8 @@ function createGrid(){
 	   		{name:'writer'	,index:'writer'	, width:80	, align:"center" , hidden:false},
 	   		{name:'regDate'	,index:'regDate', width:80	, align:"center" , hidden:false}	
 	   	],
-	   	rowNum : 3,
-	   	rowList : [3,10,20],
+	   	rowNum : 10,
+	   	rowList : [10,20,30],
 	   	pager: '#pjmap',
 	    viewrecords :  true,
 	    sortorder :  "asc",
@@ -212,33 +239,6 @@ function openDialog(title){
 	      height: '600',
 	      closeOnEscape: false, 
 	      open: function(event, ui) { 
-
-	    	  $("#popup-btn-save").click(function(){
-	    		  if(confirm("저장하시겠습니까")){
-		    		  var object = {bno 	: $("#bno").val(),
-		    				        title 	: $("#title").val(),
-		    				        content : $("#content").val(),
-		    				        writer	: $("#writer").val(),
-		    				        regDate : $("#regDate").val()};
-	    		  
-		    		  $.ajax({
-		  		    	url : '<c:url value="/board/saveBoard"/>',
-				    	datatype : "json",
-				    	type : "post",
-			            contentType: 'application/json; charset=utf-8',
-				    	data : JSON.stringify(object),
-			            success:function(data){
-			            	$('#dialog').dialog('close');
-			            	alert("저장 되었습니다.");
-			            	console.log("성공");
-			       		 	$("#jsonmap").trigger("reloadGrid");
-			            },
-			            error:function(request, status, error){
-			                console.log("AJAX_ERROR");
-			            }
-		    		  });
-	    		  }
-	    	  });
 	    	  
 	    	  $("#popup-btn-close").click(function(){
 	    		  $('#dialog').dialog('close');
